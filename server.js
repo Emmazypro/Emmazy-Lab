@@ -10,6 +10,26 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// In-memory storage for Vercel (since file system is read-only)
+let projectsData = [];
+let testimoniesData = [];
+let galleryData = [];
+
+// Load initial data
+try {
+  if (fs.existsSync(path.join(__dirname, 'projects.json'))) {
+    projectsData = JSON.parse(fs.readFileSync(path.join(__dirname, 'projects.json'), 'utf8'));
+  }
+  if (fs.existsSync(path.join(__dirname, 'testimonies.json'))) {
+    testimoniesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'testimonies.json'), 'utf8'));
+  }
+  if (fs.existsSync(path.join(__dirname, 'gallery.json'))) {
+    galleryData = JSON.parse(fs.readFileSync(path.join(__dirname, 'gallery.json'), 'utf8'));
+  }
+} catch (error) {
+  console.log('Initial data load failed, using empty arrays');
+}
+
 // Middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -72,8 +92,7 @@ function writeJSON(file, data) {
 
 // Routes for Projects
 app.get('/api/projects', (req, res) => {
-  const projects = readJSON(projectsFile);
-  res.json(projects);
+  res.json(projectsData);
 });
 
 app.post('/api/projects', (req, res) => {
@@ -81,16 +100,19 @@ app.post('/api/projects', (req, res) => {
   if (!title || !link || !image || !client || !description) {
     return res.status(400).json({ success: false, message: 'All fields required' });
   }
-  const projects = readJSON(projectsFile);
-  projects.push({ title, link, image, client, description });
-  writeJSON(projectsFile, projects);
+  projectsData.push({
+    title: title.trim(),
+    link: link.trim(),
+    image: image.trim(),
+    client: client.trim(),
+    description: description.trim()
+  });
   res.json({ success: true, message: 'Project saved' });
 });
 
 // Routes for Testimonies
 app.get('/api/testimonies', (req, res) => {
-  const testimonies = readJSON(testimoniesFile);
-  res.json(testimonies);
+  res.json(testimoniesData);
 });
 
 app.post('/api/testimonies', (req, res) => {
@@ -98,18 +120,17 @@ app.post('/api/testimonies', (req, res) => {
   if (!name || !country || !review) {
     return res.status(400).json({ success: false, message: 'All fields required' });
   }
-  const testimonies = readJSON(testimoniesFile);
-  testimonies.push({ name, country, review });
-  writeJSON(testimoniesFile, testimonies);
+  testimoniesData.push({
+    name: name.trim(),
+    country: country.trim(),
+    review: review.trim()
+  });
   res.json({ success: true, message: 'Testimony saved' });
 });
 
 // Routes for Gallery
-const galleryFile = path.join(__dirname, 'gallery.json');
-
 app.get('/api/gallery', (req, res) => {
-  const gallery = readJSON(galleryFile);
-  res.json(gallery);
+  res.json(galleryData);
 });
 
 app.post('/api/gallery', (req, res) => {
@@ -117,9 +138,10 @@ app.post('/api/gallery', (req, res) => {
   if (!image || !title) {
     return res.status(400).json({ success: false, message: 'All fields required' });
   }
-  const gallery = readJSON(galleryFile);
-  gallery.push({ image, title });
-  writeJSON(galleryFile, gallery);
+  galleryData.push({
+    image: image.trim(),
+    title: title.trim()
+  });
   res.json({ success: true, message: 'Gallery item saved' });
 });
 
