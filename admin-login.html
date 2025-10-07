@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emmazy Lab | Admin Access</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: radial-gradient(circle at center, #020617 0%, #000 100%);
+      color: #00ffe0;
+      font-family: 'Share Tech Mono', monospace;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .glow { text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0; }
+    .fadeOut { opacity: 0; filter: blur(20px); transition: all 1s ease; }
+    @keyframes pulse { 0%,100%{opacity:.6;filter:blur(2px);}50%{opacity:1;filter:blur(4px);} }
+    @keyframes rotate { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+    .scanner-circle {
+      position:absolute; top:50%; left:50%;
+      width:140px; height:140px; border:2px solid rgba(0,255,200,0.4);
+      border-radius:50%; transform:translate(-50%,-50%);
+      animation:rotate 8s linear infinite,pulse 5s ease-in-out infinite;
+      box-shadow:0 0 20px rgba(0,255,200,0.3); transition:.3s ease;
+    }
+    input[type="password"] {
+      background:transparent; border:none; border-bottom:1px solid #00ffe0;
+      color:#00ffe0; text-align:center; width:220px; letter-spacing:2px;
+      transition:.3s ease; outline:none;
+    }
+    button {
+      margin-top:20px; border:1px solid #00ffe0; background:transparent;
+      color:#00ffe0; padding:8px 24px; border-radius:9999px;
+      transition:.3s ease;
+    }
+    button:hover { background:#00ffe0; color:#000; box-shadow:0 0 20px #00ffe0; }
+    #bootSequence {
+      white-space: pre-line;
+      font-size: 0.95rem;
+      color: #00ffe0;
+      text-align: center;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    #accessOverlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+      display:flex; align-items:center; justify-content:center;
+      z-index:50; opacity:0; pointer-events:none; transition:.3s ease;
+    }
+    #accessOverlay.active { opacity:1; pointer-events:auto; }
+    #accessOverlay h2 {
+      font-size:2rem; letter-spacing:3px;
+      animation:flicker 1s infinite alternate;
+    }
+    @keyframes flicker {
+      0%,100% {opacity:1;text-shadow:0 0 10px currentColor,0 0 30px currentColor;}
+      50% {opacity:.6;text-shadow:none;}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bootSequence"></div>
+
+  <div id="loginContainer" class="text-center hidden">
+    <h1 class="text-3xl glow mb-3">THE EMMAZY LAB</h1>
+    <p class="text-gray-400 mb-10 tracking-widest">ADMIN ACCESS PORTAL</p>
+
+    <form id="loginForm">
+      <div class="relative">
+        <div class="scanner-circle" id="scanner"></div>
+        <input type="password" id="adminKey" placeholder="ENTER ACCESS KEY" required />
+      </div>
+      <button type="submit">VERIFY</button>
+    </form>
+    <p id="status" class="mt-6 text-sm text-gray-400"></p>
+  </div>
+
+  <div id="accessOverlay"><h2 id="accessText"></h2></div>
+
+  <script>
+    const bootText = [
+      "Initializing security protocols...",
+      "Verifying biometric nodes...",
+      "Activating AI sentry...",
+      "Access portal online."
+    ];
+    const bootEl = document.getElementById('bootSequence');
+    const loginContainer = document.getElementById('loginContainer');
+    let i = 0;
+
+    function bootSequence() {
+      if (i < bootText.length) {
+        bootEl.textContent += bootText[i] + "\n";
+        i++;
+        setTimeout(bootSequence, 900);
+      } else {
+        setTimeout(() => {
+          bootEl.classList.add('fadeOut');
+          loginContainer.classList.remove('hidden');
+        }, 700);
+      }
+    }
+    bootSequence();
+
+    const form = document.getElementById('loginForm');
+    const input = document.getElementById('adminKey');
+    const scanner = document.getElementById('scanner');
+    const overlay = document.getElementById('accessOverlay');
+    const overlayText = document.getElementById('accessText');
+    const statusEl = document.getElementById('status');
+
+    const correctHash = btoa('EmmazyLab2025');
+
+    input.addEventListener('input', () => {
+      const val = input.value.trim();
+      if (val === '') {
+        scanner.style.borderColor = 'rgba(0,255,200,0.4)';
+        scanner.style.boxShadow = '0 0 20px rgba(0,255,200,0.3)';
+      } else if (btoa(val) === correctHash) {
+        scanner.style.borderColor = '#00ffff';
+        scanner.style.boxShadow = '0 0 25px #00ffff';
+      } else {
+        scanner.style.borderColor = '#ff0033';
+        scanner.style.boxShadow = '0 0 25px #ff0033';
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+
+      if (btoa(val) === correctHash) {
+        sessionStorage.setItem('adminAccess', 'true');
+        overlay.classList.add('active');
+        overlayText.textContent = 'ACCESS GRANTED';
+        overlayText.style.color = '#00ffe0';
+        setTimeout(() => { window.location.href = 'admin.html'; }, 2000);
+      } else {
+        overlay.classList.add('active');
+        overlayText.textContent = 'ACCESS DENIED';
+        overlayText.style.color = '#ff0033';
+        statusEl.textContent = 'Access denied. Intrusion logged.';
+        setTimeout(() => overlay.classList.remove('active'), 1500);
+      }
+    });
+  </script>
+</body>
+</html>

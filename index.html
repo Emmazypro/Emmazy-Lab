@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Emmazy Lab — Creative-Tech Studio</title>
+  <link rel="icon" href="icons/favicon.svg" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@600;700;800&family=Poppins:wght@500;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- AOS for simple scroll reveals -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <!-- Tailwind CDN (quick prototype) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royal: '#5B3FFF',
+            teal: '#00C9B7',
+            amber: '#FFB44C',
+            graphite: '#0B0B0F',
+            soft: '#F3F4F6'
+          },
+          fontFamily: {
+            heading: ['Clash Display', 'Poppins', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          },
+          boxShadow: {
+            'glow-sm': '0 6px 30px rgba(91,63,255,0.12)',
+            'glow-md': '0 20px 60px rgba(0,201,183,0.09)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    html,body { height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #060607 0%, #0b0b0f 60%);
+      color: #EDEDED;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Glass card helper */
+    .glass {
+      background: rgba(255,255,255,0.03);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Cinematic headline highlight */
+    .highlight-accent {
+      background: linear-gradient(90deg, rgba(91,63,255,0.18), rgba(0,201,183,0.14));
+      padding: 0.12rem 0.4rem;
+      border-radius: 6px;
+    }
+
+    /* Animated gradient blob (hero) */
+    .gradient-blob {
+      position: absolute;
+      filter: blur(70px) saturate(120%);
+      opacity: 0.7;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transition: transform 0.4s ease;
+    }
+
+    /* Projects carousel layout */
+    .carousel-track {
+      display: flex;
+      gap: 1.5rem;
+      will-change: transform;
+    }
+
+    /* Card tilt on hover */
+    .tilt {
+      transform: perspective(1000px) translateZ(0);
+      transition: transform 350ms cubic-bezier(.2,.9,.3,1), box-shadow 350ms;
+    }
+    .tilt:hover { transform: translateY(-8px) rotateX(0.6deg) rotateY(-1deg) scale(1.01); box-shadow: 0 20px 50px rgba(8,8,12,0.6); }
+
+    /* Accessible reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .tilt { transition: none; transform: none !important; }
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    }
+
+    /* Small helpers */
+    .glass-border {
+      border: 1px solid rgba(255,255,255,0.035);
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      .tilt:hover { transform: none; } /* Disable hover effects on touch */
+      * { -webkit-tap-highlight-color: transparent; } /* Remove tap highlights */
+      body { -webkit-text-size-adjust: 100%; } /* Prevent font scaling */
+    }
+
+    /* Touch-friendly targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="text-soft">
+
+  <!-- NAV -->
+  <header id="siteHeader" class="fixed w-full z-50 top-0 left-0 transition-all">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between backdrop-blur-md glass-border glass" >
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-royal to-teal flex items-center justify-center text-black font-bold shadow-glow-sm">EL</div>
+        <div class="hidden sm:block">
+          <div class="text-white font-heading text-lg leading-none">The Emmazy Lab</div>
+          <div class="text-xs text-gray-300">Creative · Code · Automation</div>
+        </div>
+      </a>
+
+      <!-- Nav links -->
+      <nav class="hidden lg:flex items-center gap-8 text-gray-200 uppercase tracking-wide text-sm">
+        <a href="index.html" class="nav-link hover:text-teal transition">Home</a>
+        <a href="about.html" class="nav-link hover:text-teal transition">About</a>
+        <a href="services.html" class="nav-link hover:text-teal transition">Services</a>
+        <a href="projects.html" class="nav-link hover:text-teal transition">Projects</a>
+        <a href="testimonials.html" class="nav-link hover:text-teal transition">Testimonials</a>
+        <a href="contact.html" class="nav-link hover:text-teal transition">Contact</a>
+          <a href="gallery.html" class="nav-link hover:text-teal transition">Gallery</a>
+    </nav>
+
+      <!-- CTAs -->
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/Emmazypro/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-lg text-gray-200 hover:text-white">
+          <svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.6 7.6 0 012.01-.27c.68 0 1.37.09 2.01.27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.001 8.001 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span class="text-sm">View Code</span>
+        </a>
+
+        <a href="contact.html" class="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-teal to-royal text-black font-semibold shadow-glow-md hover:scale-[1.02] transition-transform">Work with us</a>
+
+        <!-- Mobile menu toggle -->
+        <button id="mobileToggle" class="lg:hidden ml-2 p-2 rounded-md text-gray-200 focus:outline-none" aria-label="Open menu">
+          <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
+          <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile nav panel -->
+    <nav id="mobileNav" class="lg:hidden hidden bg-black/60 backdrop-blur-md">
+      <div class="max-w-3xl mx-auto px-6 py-6 space-y-3">
+        <a class="block text-white font-medium py-2" href="index.html">Home</a>
+        <a class="block text-white font-medium py-2" href="about.html">About</a>
+        <a class="block text-white font-medium py-2" href="services.html">Services</a>
+        <a class="block text-white font-medium py-2" href="projects.html">Projects</a>
+        <a class="block text-white font-medium py-2" href="gallery.html">Gallery</a>
+        <a class="block text-white font-medium py-2" href="contact.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main class="pt-24">
+    <section class="relative overflow-hidden">
+      <!-- gradient blobs -->
+      <div class="gradient-blob w-72 h-72 rounded-full from-royal to-teal bg-gradient-to-br" style="left: -6%; top: 10%;"></div>
+      <div class="gradient-blob w-96 h-96 rounded-full from-amber to-royal bg-gradient-to-br" style="right: -10%; top: 30%;"></div>
+
+      <div class="max-w-7xl mx-auto px-6 py-28 lg:py-36 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Headline -->
+          <div>
+            <p class="uppercase text-sm text-teal font-semibold tracking-wider mb-4">Creative · Code · Automation</p>
+            <h1 class="font-heading text-4xl md:text-6xl leading-tight text-white mb-6">
+              We build <span class="highlight-accent">digital experiences</span> that convert, perform & scale.
+            </h1>
+            <p class="text-gray-300 max-w-2xl mb-8">
+              The Emmazy Lab is a creative-tech studio crafting high-impact websites, automation systems and growth funnels. Studio-grade design meets engineering — so your product looks premium and works reliably.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+              <a href="projects.html" class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-teal to-royal text-black font-semibold shadow-glow-md hover:scale-[1.02] transition-transform">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                <span>View Our Work</span>
+              </a>
+
+              <a href="contact.html" class="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-white/10 text-white hover:bg-white/6 transition">
+                <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12v6M8 12v6M12 3v9"/></svg>
+                <span>Work with us</span>
+              </a>
+
+              <a href="https://github.com/Emmazypro/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-200 hover:text-white">
+                <svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.6 7.6 0 012.01-.27c.68 0 1.37.09 2.01.27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.001 8.001 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                <span class="text-sm">View code</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Feature cards / quick highlights -->
+          <div class="space-y-6">
+            <div class="glass p-6 rounded-2xl tilt" data-aos="fade-left">
+              <div class="flex items-start gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-royal to-teal flex items-center justify-center text-black font-bold">UX</div>
+                <div>
+                  <h4 class="text-lg font-semibold">Studio-grade UX & UI</h4>
+                  <p class="text-gray-300">Interfaces that feel crafted and convert — designed for humans first.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass p-6 rounded-2xl tilt" data-aos="fade-left" data-aos-delay="80">
+              <div class="flex items-start gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber to-royal flex items-center justify-center text-black font-bold">SYS</div>
+                <div>
+                  <h4 class="text-lg font-semibold">Reliable Systems & Automation</h4>
+                  <p class="text-gray-300">Payment flows, CRMs, and workflow automations that actually save time.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass p-6 rounded-2xl tilt" data-aos="fade-left" data-aos-delay="160">
+              <div class="flex items-start gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-teal to-royal flex items-center justify-center text-black font-bold">GROW</div>
+                <div>
+                  <h4 class="text-lg font-semibold">Growth & Marketing</h4>
+                  <p class="text-gray-300">Funnels, SEO and campaigns tuned to gain traction and revenue.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- subtle overlay for depth -->
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    </section>
+
+    <!-- QUICK INTRO -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
+      <div class="glass p-8 rounded-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h3 class="text-2xl font-semibold mb-3">We turn ideas into digital systems that actually perform.</h3>
+            <p class="text-gray-300 mb-4">From brand identity and pixel-perfect frontends to backend automation and analytics — we build studio-grade work and long-term systems for clients across health, education, and commerce.</p>
+            <a href="about.html" class="inline-flex items-center gap-2 px-4 py-2 border border-white/8 rounded-lg hover:bg-white/5 transition">Meet the studio</a>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 bg-gradient-to-br from-royal/10 to-teal/6 rounded-lg">
+              <div class="text-sm font-semibold text-white">Deliverables</div>
+              <div class="text-gray-300 mt-2">Websites, Funnels, Automations</div>
+            </div>
+            <div class="p-4 bg-gradient-to-br from-amber/10 to-royal/6 rounded-lg">
+              <div class="text-sm font-semibold text-white">Stacks</div>
+              <div class="text-gray-300 mt-2">HTML, Tailwind, JS, PHP, Node</div>
+            </div>
+            <div class="p-4 bg-gradient-to-br from-teal/10 to-royal/6 rounded-lg">
+              <div class="text-sm font-semibold text-white">Industries</div>
+              <div class="text-gray-300 mt-2">Health, EdTech, Agri, Commerce</div>
+            </div>
+            <div class="p-4 bg-gradient-to-br from-royal/8 to-amber/8 rounded-lg">
+              <div class="text-sm font-semibold text-white">Delivery</div>
+              <div class="text-gray-300 mt-2">Design → Build → Automate → Scale</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS CAROUSEL -->
+    <section id="projects" class="max-w-7xl mx-auto px-6 py-20">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-semibold">Featured Projects</h2>
+        <div class="flex items-center gap-3">
+          <button id="prevProject" class="p-3 rounded-full bg-[#071117] border border-white/6 hover:bg-white/5">‹</button>
+          <button id="nextProject" class="p-3 rounded-full bg-[#071117] border border-white/6 hover:bg-white/5">›</button>
+        </div>
+      </div>
+
+      <div class="overflow-hidden">
+        <div id="projectTrack" class="carousel-track" style="padding-bottom: 1rem;">
+          <!-- Card: Elysian -->
+          <article class="min-w-[80%] md:min-w-[30%] glass p-6 rounded-2xl tilt">
+            <div class="relative overflow-hidden rounded-lg h-44">
+              <img src="images/Elysian.png" alt="Elysian Multiconcept" class="object-cover w-full h-full">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <div class="mt-4">
+              <div class="text-sm text-teal font-semibold">Live</div>
+              <h3 class="text-xl font-semibold mt-2">Elysian Multiconcept</h3>
+              <p class="text-gray-300 mt-2">Custom-coded funnel for Apollo Noni — PHP + GSAP + Paystack. First conversions within 48 hours.</p>
+              <div class="mt-4 flex gap-3">
+                <a href="https://elysianmulticoncept.shop" target="_blank" rel="noopener" class="text-teal hover:underline">View live</a>
+                <a href="projects.html#elysian" class="text-gray-300 hover:underline">Case study</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: Novasurges -->
+          <article class="min-w-[80%] md:min-w-[30%] glass p-6 rounded-2xl tilt">
+            <div class="relative overflow-hidden rounded-lg h-44">
+              <img src="images/novasurge.png" alt="Novasurges" class="object-cover w-full h-full">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <div class="mt-4">
+              <div class="text-sm text-teal font-semibold">Live</div>
+              <h3 class="text-xl font-semibold mt-2">Novasurges</h3>
+              <p class="text-gray-300 mt-2">Education brand showcase — evolving into LitNova, a full LMS platform.</p>
+              <div class="mt-4 flex gap-3">
+                <a href="https://novasurges.live" target="_blank" rel="noopener" class="text-teal hover:underline">View live</a>
+                <a href="projects.html#novasurges" class="text-gray-300 hover:underline">Case study</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: Wellvice -->
+          <article class="min-w-[80%] md:min-w-[30%] glass p-6 rounded-2xl tilt">
+            <div class="relative overflow-hidden rounded-lg h-44">
+              <img src="images/wellvice.png" alt="Wellvice" class="object-cover w-full h-full">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <div class="mt-4">
+              <div class="text-sm text-teal font-semibold">Live</div>
+              <h3 class="text-xl font-semibold mt-2">Wellvice</h3>
+              <p class="text-gray-300 mt-2">Health insights platform — symptom analysis and nearest clinic locator.</p>
+              <div class="mt-4 flex gap-3">
+                <a href="https://wellvice.netlify.app" target="_blank" rel="noopener" class="text-teal hover:underline">View live</a>
+                <a href="projects.html#wellvice" class="text-gray-300 hover:underline">Case study</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="max-w-5xl mx-auto px-6 py-16">
+      <div class="glass p-8 rounded-2xl">
+        <h2 class="text-2xl font-semibold mb-6">What clients say</h2>
+        <div class="relative">
+          <div id="testimonialTrack" class="carousel-track">
+            <figure class="min-w-full md:min-w-[100%] text-center px-6">
+              <blockquote class="text-xl italic text-gray-200">"Working with The Emmazy Lab was one of the best decisions — our crypto funnel converted within 48 hours."</blockquote>
+              <figcaption class="mt-4 font-semibold text-gray-100">— Mathew Halfacre, USA</figcaption>
+            </figure>
+
+            <figure class="min-w-full md:min-w-[100%] text-center px-6">
+              <blockquote class="text-xl italic text-gray-200">"They built a system for our wellness brand that started generating sales immediately."</blockquote>
+              <figcaption class="mt-4 font-semibold text-gray-100">— Pst. Mrs. Glory Haruna, Nigeria</figcaption>
+            </figure>
+
+            <figure class="min-w-full md:min-w-[100%] text-center px-6">
+              <blockquote class="text-xl italic text-gray-200">"Professional, strategic, and dependable — we've trusted them with multiple builds."</blockquote>
+              <figcaption class="mt-4 font-semibold text-gray-100">— Mr. Kelvin Ezeh, Nigeria</figcaption>
+            </figure>
+          </div>
+
+          <!-- controls -->
+          <div class="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2">
+            <button id="prevTest" class="p-2 rounded-full bg-[#071117] border border-white/6">‹</button>
+            <button id="nextTest" class="p-2 rounded-full bg-[#071117] border border-white/6">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+      <div class="glass p-10 rounded-2xl text-center">
+        <h3 class="text-2xl font-semibold mb-4">Ready to build something that actually works?</h3>
+        <p class="text-gray-300 mb-6">Tell us about your project and we'll map a launch plan that converts.</p>
+        <div class="flex items-center justify-center gap-4">
+          <a href="contact.html" class="px-6 py-3 rounded-full bg-gradient-to-r from-teal to-royal text-black font-semibold shadow-glow-md">Get started</a>
+          <a href="mailto:emmazypro721@gmail.com" class="px-6 py-3 rounded-full border border-white/8 text-white">Email us</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-graphite-black text-soft-white py-12 px-6 border-t border-white/10">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div>
+        <h3 class="text-xl font-heading font-semibold mb-4">The Emmazy Lab</h3>
+        <p class="text-soft-white/70 leading-relaxed">A Creative-Tech Studio blending design, development, automation, and marketing to help brands scale with class.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Explore</h4>
+        <ul class="space-y-2 text-gray-300">
+          <li><a href="index.html" class="hover:text-teal">Home</a></li>
+          <li><a href="about.html" class="hover:text-teal">About</a></li>
+          <li><a href="services.html" class="hover:text-teal">Services</a></li>
+          <li><a href="projects.html" class="hover:text-teal">Projects</a></li>
+          <li><a href="gallery.html" class="hover:text-teal">Gallery</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">What We Do</h4>
+        <ul class="space-y-2 text-gray-300">
+          <li>Web Design & Development</li>
+          <li>Branding & Graphics</li>
+          <li>Automation Systems</li>
+          <li>Digital Marketing</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Contact</h4>
+        <p class="text-gray-300 mb-2">📧 emmazypro721@gmail.com</p>
+        <p class="text-gray-300 mb-2">📞 +234 813 915 5870</p>
+        <p class="text-gray-300 mb-4">📍 Ibadan, Nigeria (Remote | Hybrid)</p>
+        <div class="flex gap-4 mt-4">
+          <a href="https://github.com/Emmazypro/" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/github icon.png" alt="GitHub" class="w-6 h-6">
+          </a>
+          <a href="https://www.behance.net/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/behance icon.jpeg" alt="Behance" class="w-6 h-6">
+          </a>
+          <a href="https://wa.me/2348139155870" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/whatsapp icon.jpeg" alt="WhatsApp" class="w-6 h-6">
+          </a>
+          <a href="https://instagram.com/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/linkedln icon.png" alt="Instagram" class="w-6 h-6">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-12 text-soft-white/70 text-sm border-t border-white/10 pt-6">
+      © 2025 The Emmazy Lab. Crafted by Bello Emmanuel & Babalola Segun ✨
+    </div>
+  </footer>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 700 });
+  </script>
+
+  <!-- JS: header, mobile nav, carousel, testimonials -->
+  <script>
+    // Header shrink on scroll
+    (function(){
+      const header = document.getElementById('siteHeader');
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const s = window.scrollY;
+        if (s > 60) {
+          header.style.transform = 'translateY(-4px)';
+          header.style.boxShadow = '0 6px 30px rgba(2,6,23,0.6)';
+        } else {
+          header.style.transform = 'translateY(0)';
+          header.style.boxShadow = 'none';
+        }
+        lastScroll = s;
+      });
+    })();
+
+    // Mobile nav toggle
+    (function(){
+      const btn = document.getElementById('mobileToggle');
+      const nav = document.getElementById('mobileNav');
+      const openIcon = document.getElementById('menuOpen');
+      const closeIcon = document.getElementById('menuClose');
+
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('hidden');
+        // toggle icons
+        openIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+      });
+    })();
+
+    // Projects carousel (simple track translate)
+    (function(){
+      const track = document.getElementById('projectTrack');
+      const prev = document.getElementById('prevProject');
+      const next = document.getElementById('nextProject');
+      let idx = 0;
+
+      function update() {
+        const cardWidth = track.querySelector('article').getBoundingClientRect().width + 24; // gap
+        track.style.transform = `translateX(-${idx * cardWidth}px)`;
+      }
+
+      next.addEventListener('click', () => {
+        idx = Math.min(idx + 1, track.children.length - (window.innerWidth >= 1024 ? 3 : 1));
+        update();
+      });
+      prev.addEventListener('click', () => {
+        idx = Math.max(idx - 1, 0);
+        update();
+      });
+
+      // auto-rotate for desktops
+      let auto = setInterval(() => {
+        if (window.innerWidth >= 1024) {
+          idx = (idx + 1) % Math.max(1, track.children.length - 2);
+          update();
+        }
+      }, 4200);
+
+      window.addEventListener('resize', update);
+      // initial layout guard
+      setTimeout(update, 200);
+    })();
+
+    // Testimonials simple slider
+    (function(){
+      const tTrack = document.getElementById('testimonialTrack');
+      const prev = document.getElementById('prevTest');
+      const next = document.getElementById('nextTest');
+      let tIdx = 0;
+
+      function tUpdate() {
+        const w = tTrack.querySelector('figure').getBoundingClientRect().width;
+        tTrack.style.transform = `translateX(-${tIdx * w}px)`;
+      }
+
+      next.addEventListener('click', () => {
+        tIdx = Math.min(tIdx + 1, tTrack.children.length - 1);
+        tUpdate();
+      });
+      prev.addEventListener('click', () => {
+        tIdx = Math.max(tIdx - 1, 0);
+        tUpdate();
+      });
+
+      // auto rotate
+      let ticker = setInterval(() => {
+        tIdx = (tIdx + 1) % tTrack.children.length;
+        tUpdate();
+      }, 6000);
+
+      window.addEventListener('resize', tUpdate);
+      setTimeout(tUpdate, 200);
+    })();
+    </script>
+    <script>
+  // === Secret Admin Access - Emmazy Stealth Mode ===
+  (function(){
+    const el = document.getElementById('secretAdmin');
+    const pulse = document.getElementById('elPulse');
+    const elText = document.getElementById('elText');
+
+    // Animation styling
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes neonPulse {
+        0% { opacity: 0; filter: blur(0px); transform: scale(1); }
+        25% { opacity: 1; filter: blur(3px); transform: scale(1.2); }
+        50% { opacity: 1; filter: blur(5px); transform: scale(1.4); }
+        100% { opacity: 0; filter: blur(10px); transform: scale(2); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    let lastClick = 0;
+
+    el.addEventListener('click', () => {
+      const now = new Date().getTime();
+      if (now - lastClick < 400) {  // Double click detected
+        triggerSecret();
+      }
+      lastClick = now;
+    });
+
+    function triggerSecret(){
+      pulse.style.background = 'radial-gradient(circle, rgba(0,255,200,0.5), transparent 70%)';
+      pulse.style.animation = 'neonPulse 1s ease forwards';
+      elText.style.filter = 'blur(3px)';
+      setTimeout(() => {
+        elText.style.opacity = '0';
+      }, 400);
+
+      setTimeout(() => {
+        const pwd = prompt("🔒 Enter Admin Access Key:");
+        // Replace this with your own hash or check
+        const secretHash = btoa('EmmazyLab2025!'); 
+        if (btoa(pwd) === secretHash) {
+          fadeOutAndRedirect();
+        } else {
+          alert('Access Denied ⚠️');
+          elText.style.opacity = '1';
+          elText.style.filter = 'none';
+        }
+      }, 1100);
+    }
+
+    function fadeOutAndRedirect(){
+      document.body.style.transition = 'all 1s ease';
+      document.body.style.filter = 'blur(20px) brightness(0)';
+      setTimeout(() => {
+        window.location.href = 'admin-login.html';
+      }, 900);
+    }
+  })();
+</script>
+  </script>
+</body>
+</html>

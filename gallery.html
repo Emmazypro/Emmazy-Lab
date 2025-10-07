@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | The Emmazy Lab</title>
+  <link rel="icon" href="icons/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Poppins:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'royal-purple': '#5B3FFF',
+            'electric-teal': '#00C9B7',
+            'warm-amber': '#FFB44C',
+            'graphite-black': '#0B0B0F',
+            'soft-white': '#EDEDED',
+          },
+          fontFamily: {
+            heading: ['Clash Display', 'Poppins', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px rgba(0, 201, 183, 0.4)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #141414, #0B0B0F 80%);
+      color: #EDEDED;
+      overflow-x: hidden;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .grad-border {
+      border-radius: 1rem;
+      border: 1px solid transparent;
+      background: linear-gradient(#0B0B0F, #0B0B0F) padding-box,
+        linear-gradient(90deg, #5B3FFF, #00C9B7, #FFB44C) border-box;
+    }
+    .glow-card {
+      transition: all 0.4s ease;
+    }
+    .glow-card:hover {
+      box-shadow: 0 0 30px rgba(0, 201, 183, 0.4);
+      transform: translateY(-6px);
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      opacity: 0.15;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      * { -webkit-tap-highlight-color: transparent; }
+      body { -webkit-text-size-adjust: 100%; }
+      .glow-card:hover { transform: none; }
+    }
+
+    /* Touch-friendly targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="particles"></canvas>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 w-full bg-graphite-black/70 backdrop-blur-xl border-b border-white/10 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center py-5 px-6">
+      <a href="index.html" class="text-2xl font-heading font-bold text-electric-teal hover:text-warm-amber transition-all">The Emmazy Lab</a>
+      <nav class="hidden md:flex space-x-8 text-sm">
+        <a href="index.html" class="hover:text-electric-teal">Home</a>
+        <a href="about.html" class="hover:text-electric-teal">About</a>
+        <a href="services.html" class="hover:text-electric-teal">Services</a>
+        <a href="projects.html" class="hover:text-electric-teal">Projects</a>
+        <a href="contact.html" class="hover:text-electric-teal">Contact</a>
+        <a href="gallery.html" class="nav-link hover:text-teal transition">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- GALLERY -->
+  <section class="py-32 px-4 bg-graphite-black text-soft-white min-h-screen relative">
+    <div class="max-w-6xl mx-auto text-center mb-16">
+      <h1 class="text-6xl font-heading font-bold mb-4" data-aos="fade-up">
+        🎨 Our Creative <span class="text-electric-teal">Gallery</span>
+      </h1>
+      <p class="text-lg text-soft-white/70 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="150">
+        A glimpse into our design world — where bold ideas meet timeless aesthetics.
+      </p>
+      <div class="w-20 h-[2px] bg-gradient-to-r from-electric-teal via-warm-amber to-royal-purple mx-auto mt-6" data-aos="zoom-in" data-aos-delay="250"></div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div id="galleryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="300">
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-soft-white text-3xl hover:text-electric-teal transition">&times;</button>
+    <img id="lightboxImage" src="" alt="Enlarged Design" class="max-h-[80vh] rounded-2xl shadow-2xl border border-soft-white/20">
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-graphite-black text-soft-white py-12 border-t border-white/10">
+    <div class="text-center text-sm text-soft-white/70">
+      <p>&copy; 2025 The Emmazy Lab. Engineered by Bello Emmanuel & Babalola Segun ⚡</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Fetch and display gallery
+    async function loadGallery() {
+      try {
+        const res = await fetch('http://localhost:3000/api/gallery');
+        const gallery = await res.json();
+        const container = document.getElementById('galleryContainer');
+        container.innerHTML = gallery.map(item => `
+          <div class="relative group overflow-hidden rounded-2xl glass grad-border glow-card cursor-pointer" onclick="openLightbox('${item.image}')">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-4">
+              <p class="font-semibold text-soft-white text-lg">${item.title}</p>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading gallery:', err);
+      }
+    }
+
+    loadGallery();
+
+    // Lightbox
+    function openLightbox(imageSrc) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImage');
+      img.src = imageSrc;
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Particle effect background
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const resize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
+    window.addEventListener('resize', resize); resize();
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * innerWidth,
+        y: Math.random() * innerHeight,
+        r: Math.random() * 2,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6
+      });
+    }
+    function animate() {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ctx.fillStyle = 'rgba(0,201,183,0.7)';
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0 || p.x > innerWidth) p.dx *= -1;
+        if (p.y < 0 || p.y > innerHeight) p.dy *= -1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

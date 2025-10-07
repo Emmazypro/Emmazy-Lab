@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | The Emmazy Lab</title>
+    <link rel="icon" href="icons/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-purple': '#5B3FFF',
+                        'electric-teal': '#00C9B7',
+                        'warm-amber': '#FFB44C',
+                        'graphite-black': '#0B0B0F',
+                        'soft-white': '#EDEDED'
+                    },
+                    fontFamily: {
+                        'heading': ['Clash Display', 'Poppins', 'sans-serif'],
+                        'body': ['Inter', 'Satoshi', 'sans-serif'],
+                        'accent': ['Playfair Display', 'serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 40px rgba(91, 63, 255, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'body';
+            background-color: #0B0B0F;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'heading';
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 40px rgba(0, 201, 183, 0.4);
+            transform: translateY(-8px);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            * { -webkit-tap-highlight-color: transparent; }
+            body { -webkit-text-size-adjust: 100%; }
+            .glow-card:hover { transform: none; }
+        }
+
+        /* Touch-friendly targets */
+        button, a, input, textarea, select {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Prevent horizontal scroll */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        .grad-border {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .grad-border::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: 1rem;
+            background: linear-gradient(45deg, #5B3FFF, #00C9B7, #FFB44C);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+        }
+    </style>
+</head>
+
+<body class="text-soft-white">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-graphite-black/80 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center py-5 px-6">
+            <a href="index.html" class="text-2xl font-bold text-electric-teal hover:text-royal-purple transition-all">The Emmazy Lab</a>
+            <nav class="hidden md:flex space-x-8 text-sm">
+                <a href="index.html" class="hover:text-electric-teal transition-all">Home</a>
+                <a href="about.html" class="hover:text-electric-teal transition-all">About</a>
+                <a href="services.html" class="hover:text-electric-teal transition-all">Services</a>
+                <a href="projects.html" class="text-electric-teal border-b-2 border-electric-teal pb-1">Projects</a>
+                <a href="testimonials.html" class="hover:text-electric-teal transition-all">Testimonials</a>
+                <a href="contact.html" class="hover:text-electric-teal transition-all">Contact</a>
+                <a href="gallery.html" class="nav-link hover:text-teal transition">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="pt-36 pb-20 text-center px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-royal-purple/10 via-transparent to-transparent"></div>
+        <div class="max-w-3xl mx-auto relative z-10" data-aos="fade-up">
+            <h1 class="text-5xl font-bold mb-4">Our Creative <span class="text-electric-teal">Lab Works</span></h1>
+            <p class="text-soft-white/70">Explore the projects where creativity meets engineering — built by <span class="text-warm-amber">The Emmazy Lab</span> team.</p>
+        </div>
+    </section>
+
+    <!-- LIVE PROJECTS -->
+    <section class="py-20 bg-soft-white text-graphite-black relative">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">🚀 Live Projects</h2>
+            <div id="projectsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            </div>
+        </div>
+    </section>
+
+    <!-- UNDER DEVELOPMENT -->
+    <section class="py-20 bg-graphite-black relative overflow-hidden">
+        <div class="max-w-6xl mx-auto text-soft-white">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">🧪 Projects in Development</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                <div class="grad-border glass p-6 glow-card transition-all" data-aos="fade-right">
+                    <div class="text-5xl mb-4">📚</div>
+                    <h3 class="text-2xl font-semibold mb-2">LitNova</h3>
+                    <p>Next-gen educational platform for Novasurges — with gamified learning, student dashboards, and advanced analytics integration.</p>
+                </div>
+                <div class="grad-border glass p-6 glow-card transition-all" data-aos="fade-left" data-aos-delay="100">
+                    <div class="text-5xl mb-4">⛪</div>
+                    <h3 class="text-2xl font-semibold mb-2">HHMI Church Web</h3>
+                    <p>Digital hub for Heritage Household Ministry Intl. — featuring sermons, event streams, and seamless online donations.</p>
+                </div>
+                <div class="grad-border glass p-6 glow-card transition-all" data-aos="fade-right" data-aos-delay="200">
+                    <div class="text-5xl mb-4">💬</div>
+                    <h3 class="text-2xl font-semibold mb-2">Konvoo</h3>
+                    <p>A creative collaboration network for freelancers — merging chat, ideas, and project management into one ecosystem.</p>
+                </div>
+                <div class="grad-border glass p-6 glow-card transition-all" data-aos="fade-left" data-aos-delay="300">
+                    <div class="text-5xl mb-4">🌾</div>
+                    <h3 class="text-2xl font-semibold mb-2">SmartFarming Africa</h3>
+                    <p>AI-driven agricultural advisor built for African farmers — offline-first, smart crop insights, and multilingual interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-graphite-black text-soft-white py-12 px-4 border-t border-white/10">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-4 text-electric-teal">The Emmazy Lab</h3>
+                <p class="text-soft-white/70">A Creative-Tech Studio blending design, development, and automation to help brands scale with class.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-warm-amber">Explore</h4>
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="hover:text-electric-teal">Home</a></li>
+                    <li><a href="about.html" class="hover:text-electric-teal">About</a></li>
+                    <li><a href="services.html" class="hover:text-electric-teal">Services</a></li>
+                    <li><a href="projects.html" class="hover:text-electric-teal">Projects</a></li>
+                    <li><a href="testimonials.html" class="hover:text-electric-teal">Testimonials</a></li>
+                    <li><a href="contact.html" class="hover:text-electric-teal">Contact</a></li>
+                    <li><a href="gallery.html" class="hover:text-electric-teal">Gallery</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-warm-amber">What We Do</h4>
+                <ul class="space-y-1">
+                    <li>Web Design & Development</li>
+                    <li>Branding & Graphics</li>
+                    <li>Automation Systems</li>
+                    <li>Digital Marketing</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-warm-amber">Contact</h4>
+                <p>📧 emmazypro721@gmail.com</p>
+                <p>📞 +234 813 915 5870</p>
+                <p>📍 Ibadan, Nigeria (Remote | Hybrid)</p>
+                <div class="flex gap-4 mt-4">
+                    <a href="https://github.com/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+                        <img src="icons/github icon.png" alt="GitHub" class="w-6 h-6">
+                    </a>
+                    <a href="https://www.behance.net/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+                        <img src="icons/behance icon.jpeg" alt="Behance" class="w-6 h-6">
+                    </a>
+                    <a href="https://wa.me/2348139155870" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+                        <img src="icons/whatsapp icon.jpeg" alt="WhatsApp" class="w-6 h-6">
+                    </a>
+                    <a href="https://instagram.com/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+                        <img src="icons/linkedln icon.png" alt="Instagram" class="w-6 h-6">
+                    </a>
+                    <a href="https://linkedin.com/in/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+                        <img src="icons/linkedln icon.png" alt="LinkedIn" class="w-6 h-6">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-10 text-sm text-soft-white/70">
+            <p>&copy; 2025 The Emmazy Lab. Crafted by Bello Emmanuel & Babalola Segun ✨</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Fetch and display projects
+        async function loadProjects() {
+            try {
+                const res = await fetch('http://localhost:3000/api/projects');
+                const projects = await res.json();
+                const container = document.getElementById('projectsContainer');
+                container.innerHTML = projects.map((project, index) => `
+                    <div class="grad-border glow-card glass p-6 rounded-2xl transition-all" data-aos="zoom-in" data-aos-delay="${index * 100}">
+                        <img src="${project.image}" alt="${project.title}" class="rounded-xl mb-4 h-52 w-full object-cover">
+                        <h3 class="text-2xl font-semibold mb-2">${project.title}</h3>
+                        <p class="text-sm mb-2">${project.description.replace(/\n/g, '<br>')}</p>
+                        <p class="text-xs mb-2">👨‍💼 Client: ${project.client}</p>
+                        <a href="${project.link}" class="text-royal-purple hover:underline">🔗 ${project.link.replace('https://', '')}</a>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading projects:', err);
+            }
+        }
+
+        loadProjects();
+    </script>
+</body>
+</html>

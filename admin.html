@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Emmazy Lab | Admin Terminal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: radial-gradient(circle at center, #020617, #000);
+      color: #00ffcc;
+      font-family: 'Share Tech Mono', monospace;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Boot overlay */
+    #bootOverlay {
+      position: fixed;
+      inset: 0;
+      background: black;
+      color: #00ffcc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .boot-text {
+      font-size: 1.2rem;
+      line-height: 1.8rem;
+      white-space: pre-wrap;
+      text-shadow: 0 0 8px #00ffcc;
+    }
+
+    .access-granted {
+      color: #00ffcc;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Dashboard Reveal */
+    #dashboard {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #dashboard.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Inputs */
+    .input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid #00ffff33;
+      outline: none;
+    }
+    .input:focus {
+      border-color: #00ffff;
+      box-shadow: 0 0 8px #00ffffaa;
+    }
+    .btn {
+      background: linear-gradient(to right, #00ffff, #007bff);
+      color: black;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #007bff, #00ffff);
+    }
+
+    /* Audio reactive pulse */
+    #audioPulse {
+      position: absolute;
+      bottom: 40px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #00ffcc;
+      opacity: 0.3;
+      animation: hum 2s infinite ease-in-out;
+    }
+
+    @keyframes hum {
+      0%,100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.3); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Boot Screen Overlay -->
+  <div id="bootOverlay">
+    <div class="access-granted mb-6">ACCESS GRANTED — Welcome Administrator</div>
+    <div id="bootLog" class="boot-text"></div>
+    <div id="audioPulse"></div>
+    <audio id="bootSound" src="https://assets.mixkit.co/sfx/preview/mixkit-computer-system-start-up-1129.mp3"></audio>
+  </div>
+
+  <!-- Main Admin Dashboard -->
+  <div id="dashboard" class="p-8 max-w-3xl mx-auto text-white">
+    <h1 class="text-3xl font-bold text-cyan-400 mb-6">The Emmazy Lab — Admin Control Panel</h1>
+
+    <!-- Add Project -->
+    <div class="bg-gray-900 p-6 rounded-2xl mb-10 shadow-lg border border-cyan-400/20">
+      <h2 class="text-2xl mb-4 font-semibold text-white">Add New Project</h2>
+      <form id="projectForm">
+        <input type="text" id="projectTitle" placeholder="Project Title" class="input" required>
+        <input type="text" id="projectLink" placeholder="Project Link" class="input" required>
+        <input type="text" id="projectImage" placeholder="Image Path (e.g., images/project.png)" class="input" required>
+        <input type="text" id="projectClient" placeholder="Client Name" class="input" required>
+        <textarea id="projectDesc" placeholder="Short Description" class="input" required></textarea>
+        <button type="submit" class="btn">Add Project</button>
+      </form>
+    </div>
+
+    <!-- Add Testimony -->
+    <div class="bg-gray-900 p-6 rounded-2xl mb-10 shadow-lg border border-cyan-400/20">
+      <h2 class="text-2xl mb-4 font-semibold text-white">Add Testimony</h2>
+      <form id="testimonyForm">
+        <input type="text" id="clientName" placeholder="Client Name" class="input" required>
+        <input type="text" id="clientCountry" placeholder="Country" class="input" required>
+        <textarea id="clientReview" placeholder="Client Review" class="input" required></textarea>
+        <button type="submit" class="btn">Add Testimony</button>
+      </form>
+    </div>
+
+    <!-- Add Gallery Item -->
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg border border-cyan-400/20">
+      <h2 class="text-2xl mb-4 font-semibold text-white">Add Gallery Item</h2>
+      <form id="galleryForm">
+        <input type="text" id="galleryImage" placeholder="Image Path (e.g., images/new-design.png)" class="input" required>
+        <input type="text" id="galleryTitle" placeholder="Title" class="input" required>
+        <button type="submit" class="btn">Add Gallery Item</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const logs = [
+      "> Initializing Control Panel...",
+      "> Loading Assets...",
+      "> Authenticating Session...",
+      "> Checking Data Streams...",
+      "> Calibrating System Nodes...",
+      "> System Ready."
+    ];
+
+    const logEl = document.getElementById("bootLog");
+    const overlay = document.getElementById("bootOverlay");
+    const dash = document.getElementById("dashboard");
+    const bootSound = document.getElementById("bootSound");
+
+    let delay = 500;
+
+    // Play sound and animate logs
+    window.addEventListener("load", () => {
+      bootSound.volume = 0.4;
+      bootSound.play();
+
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < logs.length) {
+          logEl.textContent += logs[i] + "\n";
+          i++;
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            overlay.style.opacity = 0;
+            setTimeout(() => {
+              overlay.style.display = "none";
+              dash.classList.add("visible");
+            }, 1000);
+          }, 1000);
+        }
+      }, delay);
+    });
+
+    // Form submissions
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('projectTitle').value;
+      const link = document.getElementById('projectLink').value;
+      const image = document.getElementById('projectImage').value;
+      const client = document.getElementById('projectClient').value;
+      const description = document.getElementById('projectDesc').value;
+      try {
+        const res = await fetch('http://localhost:3000/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, link, image, client, description })
+        });
+        const data = await res.json();
+        alert(data.message);
+        if (data.success) {
+          document.getElementById('projectForm').reset();
+        }
+      } catch (err) {
+        alert('Error saving project');
+      }
+    });
+
+    document.getElementById('testimonyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value;
+      const country = document.getElementById('clientCountry').value;
+      const review = document.getElementById('clientReview').value;
+      try {
+        const res = await fetch('http://localhost:3000/api/testimonies', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, country, review })
+        });
+        const data = await res.json();
+        alert(data.message);
+        if (data.success) {
+          document.getElementById('testimonyForm').reset();
+        }
+      } catch (err) {
+        alert('Error saving testimony');
+      }
+    });
+
+    document.getElementById('galleryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const image = document.getElementById('galleryImage').value;
+      const title = document.getElementById('galleryTitle').value;
+      try {
+        const res = await fetch('http://localhost:3000/api/gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image, title })
+        });
+        const data = await res.json();
+        alert(data.message);
+        if (data.success) {
+          document.getElementById('galleryForm').reset();
+        }
+      } catch (err) {
+        alert('Error saving gallery item');
+      }
+    });
+  </script>
+
+</body>
+</html>

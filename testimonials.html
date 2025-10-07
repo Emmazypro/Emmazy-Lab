@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testimonials - The Emmazy Lab</title>
+  <link rel="icon" href="icons/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;700&family=Poppins:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'royal-purple': '#5B3FFF',
+            'electric-teal': '#00C9B7',
+            'warm-amber': '#FFB44C',
+            'graphite-black': '#0B0B0F',
+            'soft-white': '#EDEDED',
+          },
+          fontFamily: {
+            heading: ['Clash Display', 'Poppins', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'body';
+      background: radial-gradient(circle at 10% 20%, #0B0B0F 0%, #14141A 100%);
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      font-family: 'heading';
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+    .glow-text {
+      text-shadow: 0 0 10px rgba(91, 63, 255, 0.7);
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      * { -webkit-tap-highlight-color: transparent; }
+      body { -webkit-text-size-adjust: 100%; }
+    }
+
+    /* Touch-friendly targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="text-soft-white">
+
+  <!-- Header -->
+  <header class="fixed w-full top-0 z-50 backdrop-blur-xl bg-black/30 border-b border-white/10 transition-all duration-500" id="navbar">
+    <div class="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+      <a href="index.html" class="text-2xl font-bold text-electric-teal">The Emmazy Lab</a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="index.html" class="hover:text-electric-teal transition">Home</a>
+        <a href="about.html" class="hover:text-electric-teal transition">About</a>
+        <a href="services.html" class="hover:text-electric-teal transition">Services</a>
+        <a href="projects.html" class="hover:text-electric-teal transition">Projects</a>
+        <a href="testimonials.html" class="text-electric-teal">Testimonials</a>
+        <a href="contact.html" class="hover:text-electric-teal transition">Contact</a>
+        <a href="gallery.html" class="hover:text-electric-teal transition">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative flex items-center justify-center text-center h-[60vh] bg-gradient-to-b from-graphite-black to-[#151521] pt-24">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-mosaic.png')] opacity-5"></div>
+    <div class="z-10 max-w-3xl px-6" data-aos="zoom-in">
+      <h1 class="text-5xl md:text-6xl font-bold glow-text mb-4">What Our Clients Say</h1>
+      <p class="text-lg text-soft-white/80">Real stories from brands we've elevated — globally and locally.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-24 px-6 bg-gradient-to-b from-[#151521] to-[#0B0B0F]">
+    <div id="testimonialsContainer" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative bg-[#0B0B0F] text-soft-white py-16 px-6 border-t border-white/10">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10" data-aos="fade-up">
+      <div>
+        <h3 class="text-2xl font-semibold mb-4 text-electric-teal">The Emmazy Lab</h3>
+        <p class="text-soft-white/70 leading-relaxed">A Creative-Tech Studio blending design, development, automation, and digital marketing to help brands scale with class.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-warm-amber">Explore</h4>
+        <ul class="space-y-2">
+          <li><a href="index.html" class="hover:text-electric-teal transition">Home</a></li>
+          <li><a href="about.html" class="hover:text-electric-teal transition">About</a></li>
+          <li><a href="services.html" class="hover:text-electric-teal transition">Services</a></li>
+          <li><a href="projects.html" class="hover:text-electric-teal transition">Projects</a></li>
+          <li><a href="testimonials.html" class="hover:text-electric-teal transition">Testimonials</a></li>
+          <li><a href="contact.html" class="hover:text-electric-teal transition">Contact</a></li>
+          <a href="gallery.html" class="nav-link hover:text-teal transition">Gallery</a>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-warm-amber">What We Do</h4>
+        <ul class="space-y-2">
+          <li>Web Design & Development</li>
+          <li>Branding & Graphics</li>
+          <li>Automation Systems</li>
+          <li>Digital Marketing</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-warm-amber">Connect</h4>
+        <p class="text-soft-white/70 mb-2">📧 emmazypro721@gmail.com</p>
+        <p class="text-soft-white/70 mb-2">📞 +234 813 915 5870</p>
+        <p class="text-soft-white/70 mb-4">📍 Ibadan, Nigeria (Remote | Hybrid)</p>
+        <div class="flex gap-4">
+          <a href="https://github.com/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/github icon.png" alt="GitHub" class="w-6 h-6">
+          </a>
+          <a href="https://www.behance.net/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/behance icon.jpeg" alt="Behance" class="w-6 h-6">
+          </a>
+          <a href="https://wa.me/2348139155870" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/whatsapp icon.jpeg" alt="WhatsApp" class="w-6 h-6">
+          </a>
+          <a href="https://instagram.com/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/linkedln icon.png" alt="Instagram" class="w-6 h-6">
+          </a>
+          <a href="https://linkedin.com/in/Emmazypro" target="_blank" rel="noopener" class="hover:scale-110 hover:drop-shadow-[0_0_8px_rgb(0,201,183)] transition">
+            <img src="icons/linkedln icon.png" alt="LinkedIn" class="w-6 h-6">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-12 text-soft-white/60 border-t border-white/10 pt-8">
+      <p>&copy; 2025 The Emmazy Lab. All Rights Reserved. Crafted by Bello Emmanuel & Babalola Segun ✨</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+
+    // Fetch and display testimonies
+    async function loadTestimonies() {
+      try {
+        const res = await fetch('http://localhost:3000/api/testimonies');
+        const testimonies = await res.json();
+        const container = document.getElementById('testimonialsContainer');
+        container.innerHTML = testimonies.map((testimony, index) => `
+          <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-transform duration-500" data-aos="fade-up" data-aos-delay="${index * 100}">
+            <blockquote class="text-xl italic mb-4">"${testimony.review}"</blockquote>
+            <cite class="font-semibold text-electric-teal">– ${testimony.name} (${testimony.country})</cite>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading testimonies:', err);
+      }
+    }
+
+    loadTestimonies();
+  </script>
+</body>
+</html>

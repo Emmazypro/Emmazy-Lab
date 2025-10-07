@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Project | The Emmazy Lab</title>
+  <link rel="icon" href="icons/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;700&family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'royal-purple': '#5B3FFF',
+            'electric-teal': '#00C9B7',
+            'warm-amber': '#FFB44C',
+            'graphite-black': '#0B0B0F',
+            'soft-white': '#EDEDED'
+          },
+          fontFamily: {
+            heading: ['Clash Display', 'Poppins', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      * { -webkit-tap-highlight-color: transparent; }
+      body { -webkit-text-size-adjust: 100%; }
+    }
+
+    /* Touch-friendly targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body class="bg-graphite-black text-soft-white font-body">
+  <!-- Header -->
+  <header class="py-6 px-6 bg-graphite-black border-b border-white/10 sticky top-0 z-50 glass">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-heading font-bold text-soft-white hover:text-electric-teal transition">
+        The Emmazy Lab
+      </a>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="index.html" class="hover:text-electric-teal">Home</a>
+        <a href="about.html" class="hover:text-electric-teal">About</a>
+        <a href="services.html" class="hover:text-electric-teal">Services</a>
+        <a href="projects.html" class="hover:text-electric-teal">Projects</a>
+        <a href="testimonials.html" class="hover:text-electric-teal">Testimonials</a>
+        <a href="contact.html" class="text-electric-teal">Contact</a>
+        <a href="gallery.html" class="nav-link hover:text-teal transition">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="text-center py-20 px-6" data-aos="fade-up">
+    <h1 class="text-4xl md:text-5xl font-heading font-bold mb-4">
+      Let’s Build Something Exceptional ✨
+    </h1>
+    <p class="text-gray-300 max-w-2xl mx-auto">
+      Tell us what you have in mind — whether it’s a website, automation system, or a full digital transformation. 
+      We’ll take it from idea to impact.
+    </p>
+  </section>
+
+  <!-- Booking Form -->
+  <section class="max-w-3xl mx-auto px-6 pb-20">
+    <form action="https://formsubmit.co/emmazypro721@gmail.com,novacore9@gmail.com"
+          method="POST"
+          class="glass rounded-3xl p-10 space-y-6"
+          id="contactForm"
+          data-aos="fade-up"
+          data-aos-delay="100">
+
+      <!-- Form Config -->
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_subject" value="New Project Inquiry - The Emmazy Lab" />
+      <input type="hidden" name="_template" value="box" />
+
+      <!-- Name -->
+      <div>
+        <label for="name" class="block text-sm mb-2">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name"
+          class="w-full p-3 bg-transparent border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm mb-2">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com"
+          class="w-full p-3 bg-transparent border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required />
+      </div>
+
+      <!-- Service -->
+      <div>
+        <label for="service" class="block text-sm mb-2">Select Service</label>
+        <select id="service" name="service"
+          class="w-full p-3 bg-graphite-black border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required>
+          <option value="" disabled selected>Select a service</option>
+          <option>Web Design & Development</option>
+          <option>Branding & Graphic Design</option>
+          <option>Automation System Setup</option>
+          <option>Digital Marketing & Funnel Setup</option>
+          <option>UI/UX Design</option>
+          <option>Custom Project</option>
+        </select>
+      </div>
+
+      <!-- Budget -->
+      <div>
+        <label for="budget" class="block text-sm mb-2">Budget Range (USD)</label>
+        <select id="budget" name="budget"
+          class="w-full p-3 bg-graphite-black border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required>
+          <option value="" disabled selected>Select your budget</option>
+          <option>$200 – $500</option>
+          <option>$500 – $1,000</option>
+          <option>$1,000 – $2,500</option>
+          <option>$2,500 – $5,000+</option>
+        </select>
+      </div>
+
+      <!-- Timeframe -->
+      <div>
+        <label for="timeframe" class="block text-sm mb-2">Project Timeframe</label>
+        <select id="timeframe" name="timeframe"
+          class="w-full p-3 bg-graphite-black border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required>
+          <option value="" disabled selected>Select timeframe</option>
+          <option>3 Days</option>
+          <option>5 Days</option>
+          <option>7 Days</option>
+          <option>14 Days</option>
+          <option>21 Days</option>
+          <option>Custom Timeline</option>
+        </select>
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label for="message" class="block text-sm mb-2">Project Description</label>
+        <textarea id="message" name="message" rows="5" placeholder="Tell us a bit about your project goals..."
+          class="w-full p-3 bg-transparent border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-teal" required></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit"
+          class="bg-royal-purple text-soft-white px-8 py-3 rounded-full hover:bg-electric-teal transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
+          Send Project Request
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Thank You Popup -->
+  <div id="thankYouPopup" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div class="glass text-center max-w-md p-8 rounded-2xl">
+      <h2 class="text-2xl font-heading font-bold mb-4">🎉 Thank you for reaching out!</h2>
+      <p class="text-gray-200">
+        Your project inquiry has been sent successfully. We’ll get back to you soon.
+      </p>
+      <a href="https://wa.me/2348139155870?text=Hi%20Emmazy%20Lab!%20I%20just%20submitted%20a%20project%20inquiry%20via%20your%20portfolio%20site."
+         target="_blank"
+         class="inline-block mt-6 bg-electric-teal text-soft-white px-6 py-3 rounded-full hover:bg-royal-purple transition-all">
+         💬 Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-graphite-black text-soft-white py-12 px-6 border-t border-white/10">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div data-aos="fade-up">
+        <h3 class="text-xl font-heading font-semibold mb-4">The Emmazy Lab</h3>
+        <p class="text-gray-300 leading-relaxed">
+          A Creative-Tech Studio blending design, development, and automation to help brands scale with class.
+        </p>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="100">
+        <h4 class="font-semibold mb-4">Explore</h4>
+        <ul class="space-y-2 text-gray-300">
+          <li><a href="index.html" class="hover:text-electric-teal">Home</a></li>
+          <li><a href="about.html" class="hover:text-electric-teal">About</a></li>
+          <li><a href="services.html" class="hover:text-electric-teal">Services</a></li>
+          <li><a href="projects.html" class="hover:text-electric-teal">Projects</a></li>
+          <li><a href="testimonials.html" class="hover:text-electric-teal">Testimonials</a></li>
+          <li><a href="contact.html" class="hover:text-electric-teal">Contact</a></li>
+          <li><a href="gallery.html" class="hover:text-electric-teal">Gallery</a></li>
+        </ul>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="150">
+        <h4 class="font-semibold mb-4">What We Do</h4>
+        <ul class="space-y-2 text-gray-300">
+          <li>Web Design & Development</li>
+          <li>Branding & Graphics</li>
+          <li>Automation Systems</li>
+          <li>Digital Marketing</li>
+        </ul>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="200">
+        <h4 class="font-semibold mb-4">Contact</h4>
+        <p>📧 emmazypro721@gmail.com</p>
+        <p>📧 novacore9@gmail.com</p>
+        <p>📞 +234 813 915 5870</p>
+        <p>📍 Ibadan, Nigeria (Remote | Hybrid)</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-12 text-sm text-gray-400 border-t border-white/10 pt-6">
+      &copy; 2025 The Emmazy Lab. Crafted by Bello Emmanuel & Babalola Segun ✨
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    const form = document.getElementById('contactForm');
+    const popup = document.getElementById('thankYouPopup');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data })
+        .then(() => {
+          form.reset();
+          popup.classList.remove('hidden');
+        })
+        .catch(() => alert('Oops! Something went wrong. Try again later.'));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Elysian Multiconcept (Apollo Noni Syrup)",
+    "link": "https://elysianmulticoncept.shop",
+    "image": "images/Elysian.png",
+    "client": "Pst. Mrs. Glory Haruna",
+    "description": "🧠 Wellness Brand Website — Built with Custom Code\n\nA complete sales funnel for Apollo Noni, including landing, lead capture, and order pages.\nIntegrated with Systeme.io for automation and payments.\nDelivered results: 40% engagement increase within first week."
+  },
+  {
+    "title": "Novasurges",
+    "link": "https://novasurges.live",
+    "image": "images/novasurge.png",
+    "client": "Mr. Kelvin Ezeh",
+    "description": "🎓 Education Brand Showcase\n\nPortfolio website for an online school serving KS1–KS5 learners.\nClean, responsive showcase platform for their courses and community."
+  },
+  {
+    "title": "Wellvice",
+    "link": "https://wellvice.netlify.app",
+    "image": "images/wellvice.png",
+    "client": "Mr. Kelvin Ezeh",
+    "description": "🏥 AI Health System Web App\n\nHealth insights platform offering real-time symptom analysis, data tracking, and nearest-clinic locator.\nBuilt with Node.js backend and JWT-secured routes."
+  }
+]

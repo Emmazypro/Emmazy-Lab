@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="NovaCore Digital">
+  <defs>
+    <linearGradient id="nc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ddcff"/>
+      <stop offset="100%" stop-color="#9b8cff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0b0f14"/>
+  <path d="M18 44c0-10.493 8.507-19 19-19h9v-6h-9C24.373 19 14 29.373 14 42v6h4v-4z" fill="url(#nc)"/>
+  <circle cx="45" cy="40" r="9" fill="url(#nc)" opacity="0.25"/>
+</svg>
+
+
